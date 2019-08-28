@@ -21,29 +21,36 @@ describe Oystercard do
       expect{ subject.deduct 1 }.to change { subject.balance }.by -1
     end
 
-describe "#in_journey?" do
+    describe "#in_journey?" do
 
-    it "is false when new oystercard is initalised" do
-      expect(subject.in_journey?).to be false
+      it "is false when new oystercard is initalised" do
+        expect(subject.in_journey?).to be false
+      end
+
+      context 'when card balance is above minimum' do
+        it "is in journey when oystercard has been touched in" do
+          subject.top_up(1)
+          subject.touch_in
+          expect(subject).to be_in_journey
+        end
+      end
+      
+      context 'when card balance is above minimum' do
+        it "is not in_journey when an oystercard has been touched out" do
+          subject.top_up(1)
+          subject.touch_in
+          subject.touch_out
+          expect(subject).not_to be_in_journey
+        end
+      end
+
     end
 
-    it "is true when oystercard has been touched in" do
-      subject.touch_in
-      expect(subject).to be_in_journey
-    end
+    describe '#touch_in' do
+      it "raises an error if the user attempts to touch in when balance is below minimum" do
+        expect { subject.touch_in }.to raise_error "Unable to touch-in: Your balance of #{subject.balance} is less than the minimum balance of #{Oystercard::MINIMUM_BALANCE}"
+      end
 
-    it "is false when an oystercard has been touched out" do
-      subject.touch_in
-      subject.touch_out
-      expect(subject).not_to be_in_journey
     end
-    end
-
-  describe '#touch_in' do
-    it "raises an error if the user attempts to touch in when balance is below minimum" do
-      expect { subject.touch_in }.to raise_error "Unable to touch-in: Your balance of #{subject.balance} is less than the minimum balance of #{Oystercard::MINIMUM_BALANCE}"
-    end
-
-  end
   end
 end
