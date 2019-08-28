@@ -38,5 +38,12 @@ describe "#in_journey?" do
       expect(subject).not_to be_in_journey
     end
     end
+
+  describe '#touch_in' do
+    it "raises an error if the user attempts to touch in when balance is below minimum" do
+      expect { subject.touch_in }.to raise_error "Unable to touch in: current balance of #{@balance}; minimum balance required: #{Oystercard::MINIMUM_BALANCE}"
+    end
+
+  end
   end
 end
