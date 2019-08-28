@@ -4,7 +4,7 @@ class Oystercard
   MINIMUM_BALANCE = 1
   FARE = 1
 
-  attr_reader :balance
+  attr_reader :balance, :entry_station
 
   def initialize
     @balance = 0
@@ -20,9 +20,10 @@ class Oystercard
     @in_use
   end
 
-  def touch_in
+  def touch_in(entry_station)
     raise "Unable to touch-in: Your balance of #{@balance} is less than the minimum balance of #{MINIMUM_BALANCE}" if @balance < MINIMUM_BALANCE
     @in_use = true
+    @entry_station = entry_station
   end
 
   def touch_out
