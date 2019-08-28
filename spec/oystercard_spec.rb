@@ -21,21 +21,22 @@ describe Oystercard do
       expect{ subject.deduct 1 }.to change { subject.balance }.by -1
     end
 
-    describe "#in_journey?" do
+describe "#in_journey?" do
 
-      it "is false when new oystercard is initalised" do
-        expect(subject.in_journey?).to be false
-      end
+    it "is false when new oystercard is initalised" do
+      expect(subject.in_journey?).to be false
+    end
 
-      it "is true when oystercard has been touched in" do
-        subject.touch_in
-        expect(subject.in_journey?).to be true
-      end
+    it "is true when oystercard has been touched in" do
+      subject.touch_in
+      expect(subject).to be_in_journey
+    end
 
-      it "is false when an oystercard has been touched out" do
-        subject.touch_in
-        expect(subject.touch_out).to be false
-      end
+    it "is false when an oystercard has been touched out" do
+      subject.touch_in
+      subject.touch_out
+      expect(subject).not_to be_in_journey
+    end
     end
   end
 end
