@@ -57,7 +57,7 @@ describe Oystercard do
       it "reduces the balance by the cost of the journey upon touching-out" do
         subject.top_up(1)
         subject.touch_in
-        expect { subject.touch_out }.to change{subject.balance}.by(-1)
+        expect { subject.touch_out }.to change{subject.balance}.by(- Oystercard::FARE)
       end
     end
   end

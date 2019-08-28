@@ -27,13 +27,13 @@ class Oystercard
 
   def touch_out
     @in_use = false
-    deduct
+    deduct(FARE)
   end
 
   private
 
-  def deduct
-    @balance -= FARE
+  def deduct(fare)
+    @balance -= fare
   end
 
   def over_limit?(amount)
