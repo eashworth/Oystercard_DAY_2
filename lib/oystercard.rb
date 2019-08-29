@@ -42,5 +42,3 @@ class Oystercard
   end
 
 end
-#Add test
-#Another test
