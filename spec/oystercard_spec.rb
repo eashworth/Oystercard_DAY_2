@@ -1,6 +1,8 @@
 require "oystercard"
 
 describe Oystercard do
+  #let(:balance){ 1 } #change to set let for balance - research correct syntax/scope.
+  #subject { decribed_class.new(balance: 1) #???} Fails because .new does not expect arguments.
   let(:entry_station){ double :entry_station}
   let(:exit_station){ double :exit_station }
   it { is_expected.to respond_to(:top_up).with(1).argument }
@@ -20,6 +22,8 @@ describe Oystercard do
   end
 
   describe '#journeys' do
+    let(:journey){ {entry: entry_station, exit: exit_station} }
+
     it 'has an empty list of journeys when created' do
       expect(subject.journeys). to eq([])
     end
@@ -28,6 +32,13 @@ describe Oystercard do
       subject.touch_in(entry_station)
       subject.touch_out(exit_station)
       expect(subject.journeys).to eq([{entry: entry_station, exit: exit_station}])
+    end
+
+    it 'stores a journey' do
+      subject.top_up(1)
+      subject.touch_in(entry_station)
+      subject.touch_out(exit_station)
+      expect(subject.journeys).to include journey
     end
   end
 
