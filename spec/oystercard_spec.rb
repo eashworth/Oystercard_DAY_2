@@ -46,10 +46,7 @@ describe Oystercard do
         expect { subject.touch_in(entry_station) }.to raise_error "Unable to touch-in: Your balance of #{subject.balance} is less than the minimum balance of #{Oystercard::MINIMUM_BALANCE}"
       end
     end
-      # it "returns the name of the entry station when touched in" do
-      #   subject.top_up(1)
-      #   expect(subject.touch_in("Paddington")).to eq(subject.entry_station)
-      # end
+
       it 'stores the entry station' do
         subject.top_up(1)
         subject.touch_in(entry_station)
@@ -63,6 +60,12 @@ describe Oystercard do
         subject.top_up(1)
         subject.touch_in(entry_station)
         expect { subject.touch_out }.to change{subject.balance}.by(- Oystercard::FARE)
+      end
+      it 'sets the entry station by setting it to nil' do
+        subject.top_up(1)
+        subject.touch_in(entry_station)
+        subject.touch_out
+        expect(subject.entry_station). to eq(nil)
       end
     end
   end
